@@ -31,8 +31,8 @@ jobs:
           file: Dockerfile
           push: true
           tags: |
-            thanhtho96/crs:latest
-            thanhtho96/crs:${{ github.sha }}
+            thanhtho96/prp:latest
+            thanhtho96/prp:${{ github.sha }}
 
       # 4️⃣ Deploy VPS
       - name: Deploy to VPS
