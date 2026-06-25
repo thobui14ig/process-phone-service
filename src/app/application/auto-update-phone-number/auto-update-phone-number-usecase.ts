@@ -30,6 +30,7 @@ export class AutoUpdatePhoneNumberUseCase {
     this.isRuning = true;
     const cmts = await this.commentRepository.getTodayComments();
     console.log('cmt', cmts.length);
+  
     for (const cmt of cmts) {
       const { userUid, cmtId } = cmt;
 
@@ -45,7 +46,7 @@ export class AutoUpdatePhoneNumberUseCase {
           console.log('Errorrr');
           continue;
         }
-        console.log(userUid, phone);
+        console.log(userUid,cmtId, phone);
         if (phone) {
           cmt.phoneNumber = phone;
         }
