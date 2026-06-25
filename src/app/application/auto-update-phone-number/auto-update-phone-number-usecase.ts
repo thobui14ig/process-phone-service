@@ -67,6 +67,7 @@ export class AutoUpdatePhoneNumberUseCase {
         ProxyType.GET_CMT,
         LoadResource.PROXY_CMT,
       );
+      if (!proxy) return 'error'; 
       const httpsAgent = getHttpAgent(proxy);
       const res = await fetch(
         `https://fbnumber.com/api/v1/phone/find-info-by-phone?searchPhone=${uid}`,
