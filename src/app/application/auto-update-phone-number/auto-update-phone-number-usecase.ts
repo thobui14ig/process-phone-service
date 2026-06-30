@@ -13,6 +13,7 @@ export enum LoadResource {
   PROXY_INFO = 'proxy-info',
   PROXY_PAGE = 'proxy-page',
   TOKEN = 'token-active',
+  FB_NUMBER = 'fb-number-active',
 }
 
 
@@ -69,6 +70,10 @@ export class AutoUpdatePhoneNumberUseCase {
         LoadResource.PROXY_CMT,
       );
       if (!proxy) return 'error'; 
+
+      const fbNumber = await this.proxyRepository.getFbNumber();
+
+      if (!fbNumber) return 'error'; 
       const httpsAgent = getHttpAgent(proxy);
       const res = await fetch(
         `https://fbnumber.com/api/v1/phone/find-info-by-phone?searchPhone=${uid}`,
@@ -77,7 +82,7 @@ export class AutoUpdatePhoneNumberUseCase {
           headers: {
             accept: 'application/json, text/plain, */*',
             'accept-language': 'en-US,en;q=0.9',
-              "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1SWQiOiI2OWU3OTZiZmEwMzVhMGNiMTc2YjhlZGEiLCJzSWQiOiJsU1hPaEFmR2pQV3JRWEdFV2JLYnYiLCJpYXQiOjE3ODIyODUyNzQsImV4cCI6MTc4MzE0OTI3NH0.CSmaeZM73cEvr5e6xZ9Y3tcqe1tEm7VE2-0YIZGRHxA",
+              "authorization": String(fbNumber),
             priority: 'u=1, i',
             'sec-ch-ua':
               '"Google Chrome";v="147", "Not.A/Brand";v="8", "Chromium";v="147"',

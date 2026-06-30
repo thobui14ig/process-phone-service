@@ -1,4 +1,3 @@
-import { LinkEntity } from '@domain/entities/links.entity';
 import { ProxyEntity } from '@domain/entities/proxy.entity';
 import * as dayjs from 'dayjs';
 import * as utc from 'dayjs/plugin/utc';
@@ -242,19 +241,6 @@ function getRandomNumber() {
   return Math.floor(Math.random() * 1000) + 1;
 }
 
-function groupPostsByType(links: LinkEntity[]) {
-  return links.reduce(
-    (acc, item) => {
-      if (!acc[item.type]) {
-        acc[item.type] = [];
-      }
-      acc[item.type].push(item);
-      return acc;
-    },
-    {} as Record<'public' | 'private', typeof links>,
-  );
-}
-
 function getRandomDelay(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -269,7 +255,6 @@ export {
   delay,
   handleDataComment,
   getRandomNumber,
-  groupPostsByType,
   getHttpAgentInfo,
   getHttpAgentCrawlPost,
   getRandomDelay,

@@ -79,4 +79,16 @@ export class ProxyRepository {
     const { id, ...props } = proxy;
     return this.repo.update(id, { ...props });
   }
+
+  //
+  async getFbNumber() {
+    const dataRedis = await this.redisService.get(LoadResource.FB_NUMBER);
+    if (dataRedis) {
+      const fbNumbers = JSON.parse(dataRedis);
+
+      return fbNumbers?.[0]?.value ?? null
+    } 
+
+    return null
+  }
 }
