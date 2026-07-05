@@ -56,7 +56,7 @@ export class CommentRepository {
       .andWhere('c.phone_number IS NULL')
       .andWhere('c.is_process_phone = FALSE')
       .andWhere('u.is_get_phone = true')
-      .andWhere('u.id IN (2, 4)')
+      // .andWhere('u.id IN (2, 4)')
       .orderBy('CASE WHEN u.id = 4 THEN 0 ELSE 1 END', 'ASC')
       .addOrderBy('c.created_at', 'DESC')
       .getMany();
