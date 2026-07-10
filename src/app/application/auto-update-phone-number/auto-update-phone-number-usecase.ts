@@ -56,7 +56,7 @@ export class AutoUpdatePhoneNumberUseCase {
       } catch (error) {
         console.log('Loi lay sdt', error);
       } finally {
-        const ms = getRandomDelay(300, 500);
+        const ms = getRandomDelay(500, 600);
         await delay(ms);
       }
     }
