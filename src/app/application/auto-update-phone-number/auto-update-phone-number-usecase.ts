@@ -78,7 +78,7 @@ export class AutoUpdatePhoneNumberUseCase {
       const res = await fetch(
         `https://fbnumber.com/api/v1/phone/find-info-by-phone?searchPhone=${uid}`,
         {
-          agent: httpsAgent,
+          // agent: httpsAgent,
           headers: {
             accept: 'application/json, text/plain, */*',
             'accept-language': 'en-US,en;q=0.9',
