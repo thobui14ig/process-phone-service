@@ -63,7 +63,14 @@ export class CommentRepository {
           like2: '%pfbid%',
         },
       )
-      .orderBy('CASE WHEN u.id = 4 THEN 0 ELSE 1 END', 'ASC')
+      .orderBy(
+        `CASE
+            WHEN u.id IN (4, 2) THEN
+              CASE WHEN u.id = 4 THEN 0 ELSE 1 END
+            ELSE 2
+          END`,
+        'ASC',
+      )
       .addOrderBy('c.created_at', 'DESC')
       .getMany();
   }
