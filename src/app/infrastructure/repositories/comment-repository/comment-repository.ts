@@ -65,9 +65,10 @@ export class CommentRepository {
       )
       .orderBy(
         `CASE
-            WHEN u.id IN (4, 2) THEN
-              CASE WHEN u.id = 4 THEN 0 ELSE 1 END
-            ELSE 2
+            WHEN u.id = 4 THEN 0
+            WHEN u.id = 77 THEN 1
+            WHEN u.id = 2 THEN 2
+            ELSE 3
           END`,
         'ASC',
       )
