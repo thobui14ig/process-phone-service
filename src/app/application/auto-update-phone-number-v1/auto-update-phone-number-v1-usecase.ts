@@ -98,7 +98,7 @@ export class AutoUpdatePhoneNumberV1UseCase {
 
   async main(uids: string []) {
     const browser = await puppeteer.launch({
-      headless: false,
+      headless: true,
       defaultViewport: null,
       args: [
         '--no-sandbox',
