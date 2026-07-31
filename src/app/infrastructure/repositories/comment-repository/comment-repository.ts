@@ -17,7 +17,7 @@ export class CommentRepository {
     private repo: Repository<CommentEntity>,
   ) {}
 
-  save(comment: CommentEntity) {
+  save(comment: CommentEntity[]) {
     return this.repo.save(comment);
   }
 
@@ -52,12 +52,12 @@ export class CommentRepository {
       .createQueryBuilder('c')
       .innerJoin('links', 'l', 'c.link_id = l.id')
       .innerJoin('users', 'u', 'l.user_id = u.id')
-      .where(`
-        (
-          u.id = 77
-          OR c.created_at >= NOW() - INTERVAL '24 hours'
-        )
-      `)
+      // .where(`
+      //   (
+      //     u.id = 77
+      //     OR c.created_at >= NOW() - INTERVAL '24 hours'
+      //   )
+      // `)
       .andWhere('c.phone_number IS NULL')
       .andWhere('c.is_process_phone = FALSE')
       .andWhere('u.is_get_phone = true')

@@ -22,6 +22,7 @@
   "dependencies": {
     "@nestjs-modules/ioredis": "^2.0.2",
     "@nestjs/axios": "^3.1.3",
+    "@nestjs/bull": "^11.0.3",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.2.3",
     "@nestjs/core": "^10.0.0",
@@ -29,18 +30,18 @@
     "@nestjs/schedule": "^6.0.0",
     "@nestjs/typeorm": "^11.0.0",
     "axios": "^1.13.2",
+    "bull": "^4.16.5",
     "dayjs": "^1.11.12",
     "http-proxy-agent": "^7.0.2",
     "https-proxy-agent": "^7.0.6",
     "ioredis": "^5.6.1",
     "mysql2": "^3.15.3",
     "nestjs-cls": "^4.3.0",
-    "pg": "^8.12.0",
+    "pg": "^8.22.0",
+    "puppeteer": "^25.3.0",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",
-    "typeorm": "^0.3.28",
-    "@nestjs/bull": "^11.0.3",
-    "bull": "^4.16.5"
+    "typeorm": "^0.3.28"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",
