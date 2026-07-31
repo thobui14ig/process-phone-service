@@ -31,6 +31,7 @@ export class AutoUpdatePhoneNumberV1UseCase {
 
     try {
       const cmts = await this.commentRepository.getTodayComments();
+      if (cmts.length < 200) return;
       console.log(`Có ${cmts.length} comment đang chờ`);
 
       if (!cmts.length) return
