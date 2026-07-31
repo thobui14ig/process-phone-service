@@ -19,15 +19,15 @@ FROM node:20-alpine
 WORKDIR /app
 ENV NODE_ENV=production
 
-RUN apk add --no-cache \
-  chromium \
-  nss \
-  freetype \
-  harfbuzz \
-  ca-certificates \
-  ttf-freefont
+# RUN apk add --no-cache \
+#   chromium \
+#   nss \
+#   freetype \
+#   harfbuzz \
+#   ca-certificates \
+#   ttf-freefont
 
-ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
+# ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
 
 # chỉ copy thứ cần để chạy
 COPY --from=builder /app/package*.json ./
