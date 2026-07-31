@@ -52,7 +52,7 @@ export class AutoUpdatePhoneNumberUseCase {
           cmt.phoneNumber = phone;
         }
         cmt.isProcessPhone = true;
-        // await this.commentRepository.save(cmt);
+        await this.commentRepository.save([cmt]);
       } catch (error) {
         console.log('Loi lay sdt', error);
       } finally {
