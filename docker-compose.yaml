@@ -18,7 +18,7 @@ services:
       DB_DATABASE: crawl
 
       REDIS_HOST: 103.211.206.96
-      REDIS_PORT: 6379
+      REDIS_PORT: 2002
       REDIS_TYPE: single
     ports:
       - "4000:4000"
