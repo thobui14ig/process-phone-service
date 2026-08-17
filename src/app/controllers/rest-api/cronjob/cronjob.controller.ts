@@ -11,13 +11,13 @@ export class CronjobControler {
 
   ) {}
 
-  @Cron(CronExpression.EVERY_10_SECONDS)
-  async updatePhoneNumber() {
-    await this.autoUpdatePhoneNumberUseCase.execute();
-  }
-
   // @Cron(CronExpression.EVERY_10_SECONDS)
-  // async updatePhoneNumberV1() {
-  //   await this.autoUpdatePhoneNumberV1UseCase.execute();
+  // async updatePhoneNumber() {
+  //   await this.autoUpdatePhoneNumberUseCase.execute();
   // }
+
+  @Cron(CronExpression.EVERY_10_SECONDS)
+  async updatePhoneNumberV1() {
+    await this.autoUpdatePhoneNumberV1UseCase.execute();
+  }
 }
