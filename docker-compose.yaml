@@ -2,7 +2,10 @@ version: "2.1"
 
 services:
   process-phone-service:
-    image: thanhtho96/prp:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: process-phone-service:latest
     container_name: process-phone-service
     restart: always
     environment:
