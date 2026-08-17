@@ -34,14 +34,14 @@ jobs:
             thanhtho96/prp:${{ github.sha }}
 
       # 4️⃣ Deploy VPS
-      - name: Deploy to VPS
-        uses: appleboy/ssh-action@v1.2.2
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          script: |
-            cd /root/repo/docker-migration
-            docker compose pull process-phone-service
-            docker compose up -d process-phone-service
-            docker image prune -f
+      # - name: Deploy to VPS
+      #   uses: appleboy/ssh-action@v1.2.2
+      #   with:
+      #     host: ${{ secrets.VPS_HOST }}
+      #     username: ${{ secrets.VPS_USER }}
+      #     key: ${{ secrets.VPS_SSH_KEY }}
+      #     script: |
+      #       cd /root/repo/docker-migration
+      #       docker compose pull process-phone-service
+      #       docker compose up -d process-phone-service
+      #       docker image prune -f

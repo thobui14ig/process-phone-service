@@ -31,10 +31,10 @@ export class AutoUpdatePhoneNumberV1UseCase {
 
     try {
       const cmts = await this.commentRepository.getTodayComments();
-      if (cmts.length < 300) return;
       console.log(`Có ${cmts.length} comment đang chờ`);
 
-      if (!cmts.length) return
+      if (cmts.length < 100) return;
+
 
       for (let i = 0; i < cmts.length; i += BATCH_SIZE) {
         const batch = cmts.slice(i, i + BATCH_SIZE);
@@ -55,7 +55,7 @@ export class AutoUpdatePhoneNumberV1UseCase {
           isProcessPhone: true,
         }));
 
-        const SAVE_BATCH_SIZE = 200;
+        const SAVE_BATCH_SIZE = 1000;
 
         for (let i = 0; i < commentsUpdate.length; i += SAVE_BATCH_SIZE) {
           const chunk = commentsUpdate.slice(i, i + SAVE_BATCH_SIZE);
@@ -171,8 +171,9 @@ export class AutoUpdatePhoneNumberV1UseCase {
     // Nếu vẫn ở login thì dừng
     if (page.url().includes('/login')) {
       console.log('Đăng nhập chưa thành công.');
-      await new Promise(() => {});
-      return;
+      // await new Promise(() => {});
+      // return;
+      return this.restart()
     }
 
     console.log('Đã đăng nhập.');
@@ -236,5 +237,17 @@ export class AutoUpdatePhoneNumberV1UseCase {
       });
     await browser.close();
     return map
+  }
+
+  restart() {
+    console.log('Restart service...');
+
+    setTimeout(() => {
+      process.exit(1);
+    }, 1000);
+
+    return {
+      message: 'Service is restarting...',
+    };
   }
 }
