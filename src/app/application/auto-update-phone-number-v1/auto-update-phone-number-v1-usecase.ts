@@ -93,6 +93,7 @@ export class AutoUpdatePhoneNumberV1UseCase {
       console.error(err);
     } finally {
       console.log('Thành công');
+      await delay(1000)
       this.isRuning = false;
     }
   }
