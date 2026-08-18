@@ -33,7 +33,7 @@ export class AutoUpdatePhoneNumberV1UseCase {
       const cmts = await this.commentRepository.getTodayComments();
       console.log(`Có ${cmts.length} comment đang chờ`);
 
-      // if (cmts.length < 100) return;
+      if (cmts.length == 0) return;
 
 
       for (let i = 0; i < cmts.length; i += BATCH_SIZE) {
