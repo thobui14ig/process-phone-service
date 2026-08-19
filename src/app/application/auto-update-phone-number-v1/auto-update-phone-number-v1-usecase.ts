@@ -89,8 +89,11 @@ export class AutoUpdatePhoneNumberV1UseCase {
           );
         }
       }
-    } catch (err) {
-      console.error(err);
+    } catch (err: any) {
+      if ((err.message as string).includes("Failed to launch the browser process")) {
+        console.error(err.message);
+        return this.restart()
+      }
     } finally {
       console.log('Thành công');
       await delay(1000)
