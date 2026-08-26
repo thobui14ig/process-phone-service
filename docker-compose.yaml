@@ -9,7 +9,7 @@ services:
     container_name: process-phone-service
     restart: always
     environment:
-      PORT: 4000
+      PORT: 6100
       DB_TYPE: postgres
       DB_HOST: 103.211.206.96
       DB_PORT: 5432
@@ -21,4 +21,4 @@ services:
       REDIS_PORT: 2002
       REDIS_TYPE: single
     ports:
-      - "4000:4000"
+      - "6100:6100"
