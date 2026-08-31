@@ -135,6 +135,9 @@ export class AutoUpdatePhoneNumberV1UseCase {
         res.url().includes('login') ||
         res.url().includes('scan-multi')
       ) {
+        if (res.status() == 522) {
+          return this.restart()
+        }
         console.log('RESPONSE:', res.status(), res.url());
       }
     });
