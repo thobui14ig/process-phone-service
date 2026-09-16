@@ -122,7 +122,7 @@ export class AutoUpdatePhoneNumberV1UseCase {
       height: 768,
     });
 
-    page.on('requestfailed', req => {
+    page.on('requestfailed', async req => {
       console.log(
         'REQUEST FAILED:',
         req.url(),
@@ -130,12 +130,14 @@ export class AutoUpdatePhoneNumberV1UseCase {
       );
     });
 
-    page.on('response', res => {
+    page.on('response', async res => {
       if (
         res.url().includes('login') ||
         res.url().includes('scan-multi')
       ) {
         if (res.status() == 522) {
+          await browser.close();
+          
           return this.restart()
         }
         console.log('RESPONSE:', res.status(), res.url());
@@ -180,6 +182,8 @@ export class AutoUpdatePhoneNumberV1UseCase {
       console.log('Đăng nhập chưa thành công.');
       // await new Promise(() => {});
       // return;
+      await browser.close();
+
       return this.restart()
     }
 
