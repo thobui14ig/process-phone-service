@@ -18,6 +18,7 @@ export enum LoadResource {
 @Injectable()
 export class AutoUpdatePhoneNumberV1UseCase {
   isRuning = false;
+  i = 0;
   constructor(
     private commentRepository: CommentRepository,
     private connection: DataSource
@@ -25,6 +26,10 @@ export class AutoUpdatePhoneNumberV1UseCase {
 
   async execute() {
     if (this.isRuning) return;
+    if (this.i === 20) {
+      this.restart();
+      return;
+    }
     this.isRuning = true;
 
     const BATCH_SIZE = 10000;
@@ -96,6 +101,8 @@ export class AutoUpdatePhoneNumberV1UseCase {
       }
     } finally {
       console.log('Thành công');
+      this.i++;
+
       await delay(1000)
       this.isRuning = false;
     }
