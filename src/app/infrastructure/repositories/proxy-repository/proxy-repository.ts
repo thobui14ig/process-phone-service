@@ -40,14 +40,6 @@ export class ProxyRepository {
     });
   }
 
-  @Cron(CronExpression.EVERY_MINUTE)
-  updateProxyBlock() {
-    return this.repo.update(
-      { isFbBlock: false },
-      { status: ProxyStatus.ACTIVE },
-    );
-  }
-
   async getRandomProxy(type: ProxyType, typeResource: LoadResource) {
     const dataRedis = await this.redisService.get(typeResource);
     let proxy = null;
