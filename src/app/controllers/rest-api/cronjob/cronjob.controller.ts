@@ -1,6 +1,6 @@
 import { AutoUpdatePhoneNumberV1UseCase } from '@application/auto-update-phone-number-v1/auto-update-phone-number-v1-usecase';
 import { AutoUpdatePhoneNumberUseCase } from '@application/auto-update-phone-number/auto-update-phone-number-usecase';
-import { Controller } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 
 @Controller()
@@ -19,5 +19,10 @@ export class CronjobControler {
   @Cron(CronExpression.EVERY_30_SECONDS)
   async updatePhoneNumberV1() {
     await this.autoUpdatePhoneNumberV1UseCase.execute();
+  }
+
+  @Get('get-token')
+  getToken() {
+    return this.autoUpdatePhoneNumberV1UseCase.getRecaptchaToken();
   }
 }

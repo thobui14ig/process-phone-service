@@ -19,10 +19,16 @@ export enum LoadResource {
 export class AutoUpdatePhoneNumberV1UseCase {
   isRuning = false;
   i = 0;
+
+  browser;
+  page;
+
   constructor(
     private commentRepository: CommentRepository,
     private connection: DataSource
-  ) {}
+  ) {
+    this.initBrowser()
+  }
 
   async execute() {
     if (this.isRuning) return;
@@ -267,5 +273,115 @@ export class AutoUpdatePhoneNumberV1UseCase {
     return {
       message: 'Service is restarting...',
     };
+  }
+
+  async initBrowser() {
+    this.browser = await puppeteer.launch({
+      headless: true,
+      defaultViewport: null,
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+      ],
+    });
+
+    this.page = await this.browser.newPage();
+
+    await this.page.setUserAgent(
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36'
+    );
+
+    await this.page.setViewport({
+      width: 1366,
+      height: 768,
+    });
+
+    this.page.on('requestfailed', async req => {
+      console.log(
+        'REQUEST FAILED:',
+        req.url(),
+        req.failure()?.errorText
+      );
+    });
+
+    this.page.on('response', async res => {
+      if (
+        res.url().includes('login') ||
+        res.url().includes('scan-multi')
+      ) {
+        if (res.status() == 522) {
+          await this.browser.close();
+          
+          return this.restart()
+        }
+        console.log('RESPONSE:', res.status(), res.url());
+      }
+    });
+
+    await this.page.goto('https://uidphone.shop/login', {
+      waitUntil: 'networkidle2',
+    });
+
+    await this.page.waitForSelector('input[name="email"]');
+
+    await this.page.type(
+      'input[name="email"]',
+      'Surimin241094@gmail.com',
+      { delay: 50 }
+    );
+
+    await this.page.type(
+      'input[name="password"]',
+      '123456',
+      { delay: 50 }
+    );
+    await delay(1000)
+    await this.page.click('#btn-login-register');
+
+    // Chờ tối đa 30s để URL đổi khỏi /login
+    try {
+      await this.page.waitForFunction(
+        () => location.pathname !== '/login',
+        { timeout: 30000 }
+      );
+    } catch {
+      console.log('Không thấy chuyển trang.');
+    }
+
+    console.log('URL:', this.page.url());
+    console.log('TITLE:', await this.page.title());
+
+    // Nếu vẫn ở login thì dừng
+    if (this.page.url().includes('/login')) {
+      console.log('Đăng nhập chưa thành công.');
+      // await new Promise(() => {});
+      // return;
+      await this.browser.close();
+
+      return this.restart()
+    }
+
+    console.log('Đã đăng nhập.');    
+  }
+
+  async getRecaptchaToken() {
+    if (!this.page || this.page.isClosed()) {
+      throw new Error('Browser chưa được khởi tạo hoặc đã đóng.');
+    }
+
+    return this.page.evaluate(async () => {
+      const captcha = (window as any).grecaptcha;
+
+      if (!captcha || typeof captcha.execute !== 'function') {
+        throw new Error('reCAPTCHA chưa được tải hoặc khởi tạo.');
+      }
+
+      await new Promise(resolve => captcha.ready(resolve));
+
+      return await captcha.execute(
+        '6LfnaVAlAAAAAO12RbI25G-8yl6ukAkjzWlEaQk-',
+        { action: 'homepage' }
+      );
+    });
   }
 }
